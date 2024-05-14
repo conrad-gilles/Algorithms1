@@ -5,45 +5,43 @@ import java.util.Stack;
 public class Problem3PostfixEvaluation {
 
     public static void main(String[] args) {
-        String expression = "231*+9-";
-        int result = evaluatePostfix(expression);
-        System.out.println("Result of postfix expression: " + result);
-    }
-
-    public static int evaluatePostfix(String expression) {
+        String str = "231*+9-";
+        int res = checkPost(str);
+        System.out.println("Result-> " + res);
+}
+    public static int checkPost(String str) {
         Stack<Integer> stack = new Stack<>();
 
-        for (char c : expression.toCharArray()) {
+        for (char c : str.toCharArray()) {
             if (Character.isDigit(c)) {
                 stack.push(c - '0');
-            } else if (isOperator(c)) {
-                int operand2 = stack.pop();
-                int operand1 = stack.pop();
-                int result = performOperation(c, operand1, operand2);
-                stack.push(result);
+            } else if (operator(c)) {
+                int a = stack.pop();
+                int b = stack.pop();
+                int res = doOperation(c, b, a);
+                stack.push(res);
             }
         }
 
-        return stack.pop();
-    }
-
-    public static boolean isOperator(char c) {
+    return stack.pop();
+}
+public static boolean operator(char c) {
         return c == '+' || c == '-' || c == '*' || c == '/';
-    }
+}
 
-    public static int performOperation(char operator, int operand1, int operand2) {
-        switch (operator) {
+    public static int doOperation(char value, int a, int b) {
+    switch (value) {
             case '+':
-                return operand1 + operand2;
+            return a + b;
             case '-':
-                return operand1 - operand2;
+            return a - b;
             case '*':
-                return operand1 * operand2;
+            return a * b;
             case '/':
-                if (operand2 == 0) throw new IllegalArgumentException("Division by zero");
-                return operand1 / operand2;
+            if (b == 0)
+            return a / b;
             default:
-                throw new IllegalArgumentException("Invalid operator");
+            throw new IllegalArgumentException("something whent wrong");
         }
     }
 }
